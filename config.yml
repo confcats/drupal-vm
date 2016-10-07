@@ -7,9 +7,9 @@ vagrant_synced_folder_default_type: smb
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
-vagrant_hostname: drupalvm-confcatsd8.dev
-vagrant_machine_name: drupalvm
-vagrant_ip: 192.168.88.88
+vagrant_hostname: drupalvm-confcatsd8-3.dev
+vagrant_machine_name: drupalvm-confcatsd8_3
+vagrant_ip: 192.168.88.89
 
 # Allow Drupal VM to be accessed via a public network interface on your host.
 # Vagrant boxes are insecure by default, so be careful. You've been warned!
@@ -37,7 +37,7 @@ drupalvm_vagrant_version_min: '1.8.5'
 drupalvm_ansible_version_min: '2.1'
 
 # Force use of ansible_local provisioner, even if Ansible is installed on host.
-force_ansible_local: false
+force_ansible_local: true
 
 # The web server software to use. Can be either 'apache' or 'nginx'.
 drupalvm_webserver: apache
@@ -67,10 +67,10 @@ drupal_composer_project_options: "--prefer-dist --no-interaction"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
-install_site: true
+install_site: false
 
 # Required Drupal settings.
-drupal_core_path: "{{ drupal_composer_install_dir }}/web"
+drupal_core_path: "{{ drupal_composer_install_dir }}/web-2"
 drupal_db_user: drupal
 drupal_db_password: drupal
 drupal_db_name: drupal

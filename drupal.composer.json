@@ -19,13 +19,13 @@
         "composer/installers": "^1.2",
         "drupal-composer/drupal-scaffold": "^2.1",
         "drupal/core": "^8.2",
-        "drupal/devel": "1.0.x-dev",
+        "drupal/devel": "1.x-dev",
         "drupal/console:": "~1.0"
     },
     "replace": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
         "installer-paths": {

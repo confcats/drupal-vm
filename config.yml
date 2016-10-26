@@ -7,9 +7,9 @@ vagrant_synced_folder_default_type: smb
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
-vagrant_hostname: drupalvm-confcatsd8-3.dev
-vagrant_machine_name: drupalvm-confcatsd8_3
-vagrant_ip: 192.168.88.89
+vagrant_hostname: confcatsd8vm.dev
+vagrant_machine_name: confcatsd8vm
+vagrant_ip: 192.168.88.88
 
 # Allow Drupal VM to be accessed via a public network interface on your host.
 # Vagrant boxes are insecure by default, so be careful. You've been warned!
@@ -24,7 +24,7 @@ vagrant_synced_folders:
   # any of the build_* settings are 'true'. By default the folder is set to
   # the drupal-vm folder.
   - local_path: .
-    destination: /var/www/drupalvm
+    destination: /var/www/confcatsvm
     type: smb
     create: true
 
@@ -37,7 +37,7 @@ drupalvm_vagrant_version_min: '1.8.5'
 drupalvm_ansible_version_min: '2.1'
 
 # Force use of ansible_local provisioner, even if Ansible is installed on host.
-force_ansible_local: true
+force_ansible_local: false
 
 # The web server software to use. Can be either 'apache' or 'nginx'.
 drupalvm_webserver: apache
@@ -53,7 +53,7 @@ drush_make_options: "--no-gitinfofile"
 
 # Set 'build_makefile' to 'false' and this to 'true' if you are using a
 # composer based site deployment strategy.
-build_composer: true
+build_composer: false
 drupal_composer_path: "{{ config_dir }}/drupal.composer.json"
 drupal_composer_install_dir: "/var/www/drupalvm/drupal"
 drupal_composer_dependencies:
@@ -62,15 +62,15 @@ drupal_composer_dependencies:
 # Set this to 'true' and 'build_makefile', 'build_composer' to 'false' if you
 # are using Composer's create-project as a site deployment strategy.
 build_composer_project: false
-drupal_composer_project_package: "drupal-composer/drupal-project:8.1.x"
-drupal_composer_project_options: "--prefer-dist --no-interaction"
+drupal_composer_project_package: "drupal-composer/drupal-project:8.2.x"
+drupal_composer_project_options: "--prefer-dist --optimize-autoloader --no-interaction"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
 install_site: false
 
 # Required Drupal settings.
-drupal_core_path: "{{ drupal_composer_install_dir }}/web-2"
+drupal_core_path: "{{ drupal_composer_install_dir }}/docroot"
 drupal_db_user: drupal
 drupal_db_password: drupal
 drupal_db_name: drupal
@@ -95,14 +95,14 @@ drupalvm_cron_jobs: []
 
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
 # this variable is 'true'.
-configure_drush_aliases: true
+configure_drush_aliases: false
 
 # Apache VirtualHosts. Add one for each site you are running inside the VM. For
 # multisite deployments, you can point multiple servernames at one documentroot.
 # View the geerlingguy.apache Ansible Role README for more options.
 apache_vhosts:
   - servername: "{{ drupal_domain }}"
-    serveralias: "www.{{ drupal_domain }}"
+    serveralias: "*.local.{{ drupal_domain }}"
     documentroot: "{{ drupal_core_path }}"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}"
@@ -232,7 +232,7 @@ firewall_log_dropped_packets: false
 
 # PHP Configuration. Currently-supported versions: 5.6, 7.0.
 # To use 5.6, see: http://docs.drupalvm.com/en/latest/other/php-56/
-php_version: "5.6"
+php_version: "7.0"
 php_memory_limit: "192M"
 php_display_errors: "On"
 php_display_startup_errors: "On"

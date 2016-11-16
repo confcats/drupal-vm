@@ -3,13 +3,13 @@
 # geerlingguy/ubuntu1404, geerlingguy/ubuntu1204, parallels/ubuntu-14.04, etc.
 vagrant_box: geerlingguy/ubuntu1604
 vagrant_user: vagrant
-vagrant_synced_folder_default_type: smb
+vagrant_synced_folder_default_type: nfs
 
 # If you need to run multiple instances of Drupal VM, set a unique hostname,
 # machine name, and IP address for each instance.
-vagrant_hostname: confcatsd8vm.dev
-vagrant_machine_name: confcatsd8vm
-vagrant_ip: 192.168.88.88
+vagrant_hostname: confcatsd8.dev
+vagrant_machine_name: confcatsd8
+vagrant_ip: 192.168.88.90
 
 # Allow Drupal VM to be accessed via a public network interface on your host.
 # Vagrant boxes are insecure by default, so be careful. You've been warned!
@@ -24,16 +24,16 @@ vagrant_synced_folders:
   # any of the build_* settings are 'true'. By default the folder is set to
   # the drupal-vm folder.
   - local_path: .
-    destination: /var/www/confcatsvm
-    type: smb
+    destination: /var/www/drupalvm
+    type: nfs
     create: true
 
 # Memory and CPU to use for this VM.
-vagrant_memory: 1024
+vagrant_memory: 2048
 vagrant_cpus: 1
 
 # Minimum required versions.
-drupalvm_vagrant_version_min: '1.8.5'
+drupalvm_vagrant_version_min: '1.8.6'
 drupalvm_ansible_version_min: '2.1'
 
 # Force use of ansible_local provisioner, even if Ansible is installed on host.
@@ -55,15 +55,15 @@ drush_make_options: "--no-gitinfofile"
 # composer based site deployment strategy.
 build_composer: false
 drupal_composer_path: "{{ config_dir }}/drupal.composer.json"
-drupal_composer_install_dir: "/var/www/drupalvm/drupal"
+drupal_composer_install_dir: "/var/www/drupalvm/confcatsd8"
 drupal_composer_dependencies:
   - "drupal/devel:1.x-dev"
 
 # Set this to 'true' and 'build_makefile', 'build_composer' to 'false' if you
 # are using Composer's create-project as a site deployment strategy.
 build_composer_project: false
-drupal_composer_project_package: "drupal-composer/drupal-project:8.2.x"
-drupal_composer_project_options: "--prefer-dist --optimize-autoloader --no-interaction"
+drupal_composer_project_package: "drupal-composer/drupal-project:8.x-dev"
+drupal_composer_project_options: "--prefer-dist --stability dev --no-interaction"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
@@ -80,6 +80,7 @@ drupal_major_version: 8
 drupal_domain: "{{ vagrant_hostname }}"
 drupal_site_name: "Drupal"
 drupal_install_profile: standard
+drupal_enable_modules: [ 'devel' ]
 drupal_account_name: admin
 drupal_account_pass: admin
 
@@ -89,13 +90,13 @@ drupal_site_install_extra_args: []
 # Cron jobs are added to the vagrant user's crontab. Keys include name
 # (required), minute, hour, day, weekday, month, job (required), and state.
 drupalvm_cron_jobs: []
-  # - name: "Drupal Cron",
-  #   minute: "*/30",
+  # - name: "Drupal Cron"
+  #   minute: "*/30"
   #   job: "drush -r {{ drupal_core_path }} core-cron"
 
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
 # this variable is 'true'.
-configure_drush_aliases: false
+configure_drush_aliases: true
 
 # Apache VirtualHosts. Add one for each site you are running inside the VM. For
 # multisite deployments, you can point multiple servernames at one documentroot.
@@ -192,6 +193,7 @@ installed_extras:
   # - blackfire
   - drupalconsole
   # - elasticsearch
+  # - java
   - mailhog
   # - memcached
   # - newrelic
@@ -203,7 +205,7 @@ installed_extras:
   # - solr
   - varnish
   - xdebug
-  - xhprof
+  # - xhprof
 
 # Add any extra apt or yum packages you would like installed.
 extra_packages:
@@ -234,6 +236,7 @@ firewall_log_dropped_packets: false
 # To use 5.6, see: http://docs.drupalvm.com/en/latest/other/php-56/
 php_version: "7.0"
 php_memory_limit: "192M"
+php_max_execution_time: "0"
 php_display_errors: "On"
 php_display_startup_errors: "On"
 php_realpath_cache_size: "1024K"

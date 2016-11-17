@@ -26,3 +26,6 @@ drupal/
 
 # Some roles include 'config.yml' files.
 !provisioning/roles/**/config.yml
+
+#confcats
+confcatsd8

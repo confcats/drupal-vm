@@ -28,4 +28,4 @@ drupal/
 !provisioning/roles/**/config.yml
 
 #confcats
-confcatsd8
+confcatsd8/

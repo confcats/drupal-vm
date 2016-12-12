@@ -57,6 +57,12 @@ end
 Vagrant.require_version ">= #{vconfig['drupalvm_vagrant_version_min']}"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Virtualbox GUI
+   config.vm.provider "virtualbox" do |vb|
+     vb.gui = false # set to true for testing
+   end
+
   # Networking configuration.
   config.vm.hostname = vconfig['vagrant_hostname']
   if vconfig['vagrant_ip'] == '0.0.0.0' && Vagrant.has_plugin?('vagrant-auto_network')
@@ -72,6 +78,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # SSH options.
+  # Personal SSH keys
+  config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
+
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+
   config.ssh.insert_key = false
   config.ssh.forward_agent = true
 

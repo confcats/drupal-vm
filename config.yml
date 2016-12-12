@@ -103,10 +103,14 @@ configure_drush_aliases: true
 # View the geerlingguy.apache Ansible Role README for more options.
 apache_vhosts:
   - servername: "{{ drupal_domain }}"
-    serveralias: "*.local.{{ drupal_domain }}"
     documentroot: "{{ drupal_core_path }}"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}"
+
+  - servername: "confcatsd7.dev"
+    documentroot: "{{ drupal_core_path }}/confcatsd7/docroot"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}/confcatsd7/docroot"
 
   - servername: "adminer.{{ vagrant_hostname }}"
     documentroot: "{{ adminer_install_dir }}"

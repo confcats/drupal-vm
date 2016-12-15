@@ -81,8 +81,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Personal SSH keys
   config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
 
-  config.ssh.username = "vagrant"
-  config.ssh.password = "vagrant"
+  # config.ssh.username = "vagrant"
+  # config.ssh.password = "vagrant"
 
   config.ssh.insert_key = false
   config.ssh.forward_agent = true

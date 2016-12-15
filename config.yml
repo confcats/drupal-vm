@@ -25,7 +25,7 @@ vagrant_synced_folders:
   # the drupal-vm folder.
   - local_path: .
     destination: /var/www/drupalvm
-    type: nfs
+    type: rsync
     create: true
 
 # Memory and CPU to use for this VM.
@@ -108,11 +108,13 @@ apache_vhosts:
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ drupal_core_path }}"
 
   - servername: "confcatsd8.dev"
+    serveralias: "*.confcatsd8.dev"
     documentroot: "/var/www/drupalvm/confcatsd8/docroot"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/drupalvm/confcatsd8/docroot"
 
   - servername: "confcatsd7.dev"
+    serveralias: "*.confcatsd7.dev"
     documentroot: "/var/www/drupalvm/confcatsd7/docroot"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/drupalvm/confcatsd7/docroot"

@@ -27,6 +27,9 @@ vagrant_synced_folders:
     destination: /var/www/drupalvm
     type: rsync
     create: true
+    excluded_paths:
+      - confcatsd8/.git
+      - confcatsd7/.git
 
 # Memory and CPU to use for this VM.
 vagrant_memory: 2048

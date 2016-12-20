@@ -23,13 +23,17 @@ vagrant_synced_folders:
   # The first synced folder will be used for the default Drupal installation, if
   # any of the build_* settings are 'true'. By default the folder is set to
   # the drupal-vm folder.
-  - local_path: .
-    destination: /var/www/drupalvm
+  - local_path: ./confcatsd7
+    destination: /var/www/drupalvm/confcatsd7
     type: rsync
     create: true
     excluded_paths:
-      - confcatsd8/.git
       - confcatsd7/.git
+
+  - local_path: ./confcatsd8
+    destination: /var/www/drupalvm/confcatsd8
+    type: nfs
+    create: true
 
 # Memory and CPU to use for this VM.
 vagrant_memory: 2048
@@ -217,7 +221,7 @@ installed_extras:
   # - ruby
   # - selenium
   # - solr
-  - varnish
+  # - varnish
   - xdebug
   # - xhprof
 

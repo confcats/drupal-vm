@@ -35,6 +35,16 @@ vagrant_synced_folders:
     type: nfs
     create: true
 
+  - local_path: ./brandonratzeachvoicecom1
+    destination: /var/www/drupalvm/brandonratzeachvoicecom1
+    type: nfs
+    create: true
+
+  - local_path: ./projects
+    destination: /var/www/drupalvm/projects
+    type: nfs
+    create: true
+
 # Memory and CPU to use for this VM.
 vagrant_memory: 2048
 vagrant_cpus: 1
@@ -51,48 +61,6 @@ drupalvm_webserver: apache
 
 # The database system to use. Can be either 'mysql' or 'pgsql'.
 drupalvm_database: mysql
-
-# Set this to 'false' if you are using a different site deployment strategy and
-# would like to configure 'vagrant_synced_folders' and 'apache_vhosts' manually.
-build_makefile: false
-drush_makefile_path: "{{ config_dir }}/drupal.make.yml"
-drush_make_options: "--no-gitinfofile"
-
-# Set 'build_makefile' to 'false' and this to 'true' if you are using a
-# composer based site deployment strategy.
-build_composer: false
-drupal_composer_path: "{{ config_dir }}/drupal.composer.json"
-drupal_composer_install_dir: "/var/www/drupalvm/confcatsd8"
-drupal_composer_dependencies:
-  - "drupal/devel:1.x-dev"
-
-# Set this to 'true' and 'build_makefile', 'build_composer' to 'false' if you
-# are using Composer's create-project as a site deployment strategy.
-build_composer_project: false
-drupal_composer_project_package: "drupal-composer/drupal-project:8.x-dev"
-drupal_composer_project_options: "--prefer-dist --stability dev --no-interaction"
-
-# Set this to 'false' if you don't need to install drupal (using the drupal_*
-# settings below), but instead copy down a database (e.g. using drush sql-sync).
-install_site: false
-
-# Required Drupal settings.
-drupal_core_path: "{{ drupal_composer_install_dir }}/docroot"
-drupal_db_user: drupal
-drupal_db_password: drupal
-drupal_db_name: drupal
-
-# Settings for installing a Drupal site if 'install_site:' is 'true'.
-drupal_major_version: 8
-drupal_domain: "{{ vagrant_hostname }}"
-drupal_site_name: "Drupal"
-drupal_install_profile: standard
-drupal_enable_modules: [ 'devel' ]
-drupal_account_name: admin
-drupal_account_pass: admin
-
-# Additional arguments or options to pass to `drush site-install`.
-drupal_site_install_extra_args: []
 
 # Cron jobs are added to the vagrant user's crontab. Keys include name
 # (required), minute, hour, day, weekday, month, job (required), and state.
@@ -125,6 +93,18 @@ apache_vhosts:
     documentroot: "/var/www/drupalvm/confcatsd7/docroot"
     extra_parameters: |
           ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/drupalvm/confcatsd7/docroot"
+
+  - servername: "brandonratzeachvoicecom1.dev"
+    serveralias: "*.brandonratzeachvoicecom1.dev"
+    documentroot: "/var/www/drupalvm/brandonratzeachvoicecom1/docroot"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/drupalvm/brandonratzeachvoicecom1/docroot"
+
+  - servername: "project.dev"
+    serveralias: "*.project.dev"
+    documentroot: "/var/www/drupalvm/projects"
+    extra_parameters: |
+          ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000/var/www/drupalvm/projects"
 
   - servername: "adminer.{{ vagrant_hostname }}"
     documentroot: "{{ adminer_install_dir }}"
@@ -222,7 +202,7 @@ installed_extras:
   # - selenium
   # - solr
   # - varnish
-  - xdebug
+  # - xdebug - disabled for performance help in composer
   # - xhprof
 
 # Add any extra apt or yum packages you would like installed.
@@ -232,7 +212,7 @@ extra_packages:
 # You can configure almost anything else on the server in the rest of this file.
 extra_security_enabled: false
 
-drush_version: "master"
+drush_version: "8.1.7" #"master"
 drush_keep_updated: true
 drush_composer_cli_options: "--prefer-dist --no-interaction"
 
@@ -317,9 +297,9 @@ pimpmylog_grant_all_privs: true
 # XDebug configuration. XDebug is disabled by default for better performance.
 php_xdebug_default_enable: 0
 php_xdebug_coverage_enable: 0
-php_xdebug_cli_enable: 1
-php_xdebug_remote_enable: 1
-php_xdebug_remote_connect_back: 1
+php_xdebug_cli_enable: 0
+php_xdebug_remote_enable: 0
+php_xdebug_remote_connect_back: 0
 # Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
 php_xdebug_idekey: PHPSTORM
 php_xdebug_max_nesting_level: 256

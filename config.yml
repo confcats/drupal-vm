@@ -202,7 +202,7 @@ installed_extras:
   # - selenium
   # - solr
   # - varnish
-  # - xdebug - disabled for performance help in composer
+  - xdebug
   # - xhprof
 
 # Add any extra apt or yum packages you would like installed.
@@ -233,7 +233,7 @@ firewall_log_dropped_packets: false
 # PHP Configuration. Currently-supported versions: 5.6, 7.0.
 # To use 5.6, see: http://docs.drupalvm.com/en/latest/other/php-56/
 php_version: "7.0"
-php_memory_limit: "192M"
+php_memory_limit: "512M"
 php_max_execution_time: "0"
 php_display_errors: "On"
 php_display_startup_errors: "On"
@@ -295,10 +295,10 @@ pimpmylog_install_dir: /usr/share/php/pimpmylog
 pimpmylog_grant_all_privs: true
 
 # XDebug configuration. XDebug is disabled by default for better performance.
-php_xdebug_default_enable: 0
-php_xdebug_coverage_enable: 0
-php_xdebug_cli_enable: 0
-php_xdebug_remote_enable: 0
+php_xdebug_default_enable: 1
+php_xdebug_coverage_enable: 1
+php_xdebug_cli_enable: 1
+php_xdebug_remote_enable: 1
 php_xdebug_remote_connect_back: 0
 # Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
 php_xdebug_idekey: PHPSTORM
